@@ -1,0 +1,3 @@
+[submodule "NewDinoPortfolio/Assets/DinoUtility"]
+	path = NewDinoPortfolio/Assets/DinoUtility
+	url = https://github.com/Dinorekkos/UnityCodeUtility_DianaRamos.git
