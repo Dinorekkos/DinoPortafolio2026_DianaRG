@@ -9,6 +9,6 @@ AssetOrigin:
   serializedVersion: 1
   productId: 302447
   packageName: Furniture Cute - Low Poly 3D Models Pack
-  packageVersion: 1.0
-  assetPath: Assets/ithappy/Furniture_Cute/Render_Pipeline_Convert/Unity_6_URP_source.unitypackage
-  uploadId: 756614
+  packageVersion: 2.0
+  assetPath: Assets/Plugins/ithappy/Furniture_Cute/Render_Pipeline_Convert/Unity_6_URP_source.unitypackage
+  uploadId: 850144
