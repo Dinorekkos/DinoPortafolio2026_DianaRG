@@ -7,7 +7,7 @@
             "id": "ebf469fe-1c0c-4139-a004-7ff894bbd4a1",
             "actions": [
                 {
-                    "name": "Zoom",
+                    "name": "Interact",
                     "type": "Value",
                     "id": "b7cfacff-4d28-4e63-8dbd-cdb5c8d49ea7",
                     "expectedControlType": "Touch",
@@ -20,11 +20,11 @@
                 {
                     "name": "",
                     "id": "fad68143-e138-4857-8465-eef92e11802c",
-                    "path": "<Touchscreen>/primaryTouch",
+                    "path": "<Touchscreen>/touch0",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
