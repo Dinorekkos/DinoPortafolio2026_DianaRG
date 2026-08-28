@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
+    #region Touch Mobile
     private const float PinchSensitivity = 0.005f;
     private const float PinchThresholdPixels = 2f;
     private const float MinCameraSize = 0.5f;
@@ -12,6 +13,15 @@ public class InputManager : Singleton<InputManager>
     private Touchscreen _touchscreen;
     private float _previousPinchDistance;
     private bool _isPinching;
+    #endregion
+
+    #region Type
+
+    [Header("Input Type")]
+    public InputType inputType;
+
+    #endregion
+    
     
     protected override void Awake()
     {
@@ -28,6 +38,11 @@ public class InputManager : Singleton<InputManager>
     void Initialize()
     {
         _touchscreen = Touchscreen.current;
+        if(_touchscreen == null)
+        {
+            Debug.LogWarning("Touchscreen not found. Touch input will not work.");
+        }
+        
     }
 
     private void Update()
@@ -110,4 +125,10 @@ public class InputManager : Singleton<InputManager>
         return false;
     }
 
+}
+
+public enum InputType
+{
+    Touch,
+    Mouse
 }

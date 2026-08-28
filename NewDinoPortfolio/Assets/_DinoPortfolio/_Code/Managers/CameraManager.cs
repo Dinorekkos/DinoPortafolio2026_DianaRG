@@ -7,6 +7,7 @@ public class CameraManager : Singleton<CameraManager>
     [SerializeField] private float mobileSize = 2.8f;
     [SerializeField] private float tabletSize = 2.0f;
     [SerializeField] private float desktopSize = 1f;
+    [SerializeField] private Vector3 desktopPosition = new Vector3(0, 0, 0);
    
     [SerializeField] private Camera _mainCamera;
     
@@ -43,10 +44,12 @@ public class CameraManager : Singleton<CameraManager>
                 break;
             case DeviceType.Desktop:
                 _mainCamera.orthographicSize = desktopSize;
+                _mainCamera.transform.position = desktopPosition;
                 break;
             default:
                 Debug.LogWarning("Unknown device type. Using default camera size.");
                 _mainCamera.orthographicSize = desktopSize;
+                _mainCamera.transform.position = desktopPosition;
                 break;
         }
         

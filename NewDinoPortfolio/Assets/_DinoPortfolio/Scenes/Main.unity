@@ -952,6 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   dontDestroyOnLoad: 1
+  inputType: 0
 --- !u!1 &49025817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,6 +1380,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5529b2a642b634b4d9f8d7141d2e3027, type: 3}
   m_PrefabInstance: {fileID: 623128590681681078}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &185653072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185653073}
+  m_Layer: 0
+  m_Name: WebHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &185653073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185653072}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188891143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3371,7 +3403,8 @@ MonoBehaviour:
   dontDestroyOnLoad: 0
   mobileSize: 2.8
   tabletSize: 1.9
-  desktopSize: 1
+  desktopSize: 1.2
+  desktopPosition: {x: -0.543, y: 1.5, z: -0.756}
   _mainCamera: {fileID: 1115734917}
 --- !u!4 &1023366627 stripped
 Transform:
@@ -3426,7 +3459,7 @@ MonoBehaviour:
   parentCanvas: {fileID: 2082493910}
   fadeScreenCanvasGroup: {fileID: 426171693}
   fadeDuration: 0.5
-  fadeColor: {r: 0.80392164, g: 0.6039216, b: 0.3372549, a: 1}
+  fadeColor: {r: 0.97647065, g: 0.63529414, b: 0.32941177, a: 1}
   fadeImage: {fileID: 1903741060}
 --- !u!1 &1115734915
 GameObject:
@@ -3544,7 +3577,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -5795,3 +5828,4 @@ SceneRoots:
   - {fileID: 1859966578}
   - {fileID: 990436607}
   - {fileID: 40991482}
+  - {fileID: 185653073}

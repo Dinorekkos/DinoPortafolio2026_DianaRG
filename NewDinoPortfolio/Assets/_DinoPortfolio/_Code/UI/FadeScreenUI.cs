@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,11 +21,13 @@ public class FadeScreenUI : MonoBehaviour
         FadeOut();
     }
     
+    
     [Button]
     public void FadeIn()
     {
         fadeScreenCanvasGroup.DOFade(1f, fadeDuration).OnComplete(() =>
         {
+            Debug.Log("Fade in complete");
         });
     }
     
@@ -33,6 +36,7 @@ public class FadeScreenUI : MonoBehaviour
     {
         fadeScreenCanvasGroup.DOFade(0f, fadeDuration).OnComplete(() =>
         {
+            Debug.Log("Fade out complete");
         });
     }
     
