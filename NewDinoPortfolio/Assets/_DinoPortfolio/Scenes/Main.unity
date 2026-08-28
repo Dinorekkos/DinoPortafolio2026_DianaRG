@@ -999,6 +999,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 1
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!21 &93873183
 Material:
   serializedVersion: 8
@@ -1769,6 +1775,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!1 &324952107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,6 +1827,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!1 &422985158
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,6 +2112,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!1 &627224660
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,6 +2164,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!21 &699653419
 Material:
   serializedVersion: 8
@@ -2897,6 +2927,37 @@ Material:
     - _ShakeSpeed: {r: 5, g: 5, b: 5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!1 &837153804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837153805}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &837153805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837153804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &845891073
 Material:
   serializedVersion: 8
@@ -3809,6 +3870,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!4 &1524527903 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9cd34cbd0999a144b8e31b086e3f575e, type: 3}
@@ -3841,8 +3908,8 @@ Transform:
   m_GameObject: {fileID: 1546347829}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.083, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.281, z: 0}
+  m_LocalScale: {x: 1.548, y: 1.548, z: 1.548}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 188891144}
@@ -3923,6 +3990,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   outlineThickness: 0.75
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!21 &1648980920
 Material:
   serializedVersion: 8
@@ -4950,6 +5023,59 @@ Material:
     - _ShakeSpeed: {r: 5, g: 5, b: 5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!1 &2037281691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2037281692}
+  - component: {fileID: 2037281693}
+  m_Layer: 0
+  m_Name: Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2037281692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037281691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1023366627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2037281693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037281691}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1155306, y: 0.11010736, z: 0.565063}
+  m_Center: {x: -0.0015612653, y: 0.68818355, z: 0.007849932}
 --- !u!1 &2055244832
 GameObject:
   m_ObjectHideFlags: 0
@@ -4996,6 +5122,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dino.Portfolio.Gameplay.Interactable
   outlineThickness: 1
+  canDrag: 1
+  raycastDistance: 1000
+  dragStartThresholdPixels: 12
+  canTapPush: 1
+  tapImpulseForce: 1.5
+  tapImpulseUpForce: 0.15
 --- !u!1 &2082493910
 GameObject:
   m_ObjectHideFlags: 0
@@ -5256,28 +5388,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &314275226423813166
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9073473883310161940}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7918906442649716174, guid: b7e68deacb9845d409f0c7743431b51e, type: 3}
 --- !u!1001 &623128590681681078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5786,11 +5896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b7e68deacb9845d409f0c7743431b51e, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b7e68deacb9845d409f0c7743431b51e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 314275226423813166}
+      addedObject: {fileID: 2037281692}
+    m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b7e68deacb9845d409f0c7743431b51e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9073473883310161942}
@@ -5829,3 +5939,4 @@ SceneRoots:
   - {fileID: 990436607}
   - {fileID: 40991482}
   - {fileID: 185653073}
+  - {fileID: 837153805}

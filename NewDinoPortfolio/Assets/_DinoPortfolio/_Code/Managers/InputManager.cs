@@ -4,15 +4,11 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
-    #region Touch Mobile
-    private const float PinchSensitivity = 0.005f;
-    private const float PinchThresholdPixels = 2f;
-    private const float MinCameraSize = 0.5f;
-    private const float MaxCameraSize = 8f;
-
+    #region Devices
+    private Mouse _mouse;
     private Touchscreen _touchscreen;
-    private float _previousPinchDistance;
-    private bool _isPinching;
+    private bool _hasPreviousPointerPosition;
+    private int _lastUpdatedFrame = -1;
     #endregion
 
     #region Type
@@ -21,108 +17,119 @@ public class InputManager : Singleton<InputManager>
     public InputType inputType;
 
     #endregion
-    
-    
+
+    #region Pointer State
+    public bool HasPointer { get; private set; }
+    public bool PointerPressedThisFrame { get; private set; }
+    public bool PointerReleasedThisFrame { get; private set; }
+    public bool PointerIsPressed { get; private set; }
+    public Vector2 PointerScreenPosition { get; private set; }
+    public Vector2 PointerDelta { get; private set; }
+    #endregion
+
     protected override void Awake()
     {
         base.Awake();
         Initialize();
-        
     }
 
-    void Start()
-    {
-      
-    }
-    
     void Initialize()
     {
+        _mouse = Mouse.current;
         _touchscreen = Touchscreen.current;
-        if(_touchscreen == null)
-        {
-            Debug.LogWarning("Touchscreen not found. Touch input will not work.");
-        }
-        
+        inputType = _touchscreen != null && _mouse == null ? InputType.Touch : InputType.Mouse;
     }
 
     private void Update()
     {
+        RefreshInput();
+    }
+
+    public void RefreshInput()
+    {
+        if (_lastUpdatedFrame == Time.frameCount)
+            return;
+
+        _lastUpdatedFrame = Time.frameCount;
+
+        if (_mouse == null)
+            _mouse = Mouse.current;
+
         if (_touchscreen == null)
             _touchscreen = Touchscreen.current;
 
+        Vector2 previousPosition = PointerScreenPosition;
+
+        HasPointer = false;
+        PointerPressedThisFrame = false;
+        PointerReleasedThisFrame = false;
+        PointerIsPressed = false;
+        PointerDelta = Vector2.zero;
+
+        if (TryReadTouchInput(out Vector2 touchPosition, out bool touchPressed, out bool touchPressedThisFrame, out bool touchReleasedThisFrame))
+        {
+            SetPointerState(InputType.Touch, touchPosition, touchPressed, touchPressedThisFrame, touchReleasedThisFrame, previousPosition);
+            return;
+        }
+
+        if (TryReadMouseInput(out Vector2 mousePosition, out bool mousePressed, out bool mousePressedThisFrame, out bool mouseReleasedThisFrame))
+        {
+            SetPointerState(InputType.Mouse, mousePosition, mousePressed, mousePressedThisFrame, mouseReleasedThisFrame, previousPosition);
+            return;
+        }
+
+        _hasPreviousPointerPosition = false;
+    }
+
+    private void SetPointerState(InputType detectedInputType, Vector2 position, bool isPressed, bool pressedThisFrame, bool releasedThisFrame, Vector2 previousPosition)
+    {
+        inputType = detectedInputType;
+        HasPointer = true;
+        PointerScreenPosition = position;
+        PointerIsPressed = isPressed;
+        PointerPressedThisFrame = pressedThisFrame;
+        PointerReleasedThisFrame = releasedThisFrame;
+        PointerDelta = _hasPreviousPointerPosition ? position - previousPosition : Vector2.zero;
+        _hasPreviousPointerPosition = true;
+    }
+
+    private bool TryReadTouchInput(out Vector2 position, out bool isPressed, out bool pressedThisFrame, out bool releasedThisFrame)
+    {
+        position = Vector2.zero;
+        isPressed = false;
+        pressedThisFrame = false;
+        releasedThisFrame = false;
+
         if (_touchscreen == null)
-            return;
+            return false;
 
-        if (TryGetTwoActiveTouchPositions(out Vector2 touchPosition1, out Vector2 touchPosition2))
-        {
-            DetectZoom(touchPosition1, touchPosition2);
-        }
-        else
-        {
-            _isPinching = false;
-        }
+        var primaryTouch = _touchscreen.primaryTouch;
+        isPressed = primaryTouch.press.isPressed;
+        pressedThisFrame = primaryTouch.press.wasPressedThisFrame;
+        releasedThisFrame = primaryTouch.press.wasReleasedThisFrame;
+
+        if (!isPressed && !pressedThisFrame && !releasedThisFrame)
+            return false;
+
+        position = primaryTouch.position.ReadValue();
+        return true;
     }
 
-    //detect zoom input with 2 fingers in touch screen 
-    void DetectZoom(Vector2 currentTouchPosition1, Vector2 currentTouchPosition2)
+    private bool TryReadMouseInput(out Vector2 position, out bool isPressed, out bool pressedThisFrame, out bool releasedThisFrame)
     {
-        var distance = Vector2.Distance(currentTouchPosition1, currentTouchPosition2);
+        position = Vector2.zero;
+        isPressed = false;
+        pressedThisFrame = false;
+        releasedThisFrame = false;
 
-        if (!_isPinching)
-        {
-            _previousPinchDistance = distance;
-            _isPinching = true;
-            return;
-        }
+        if (_mouse == null)
+            return false;
 
-        float pinchDelta = distance - _previousPinchDistance;
-
-        if (Mathf.Abs(pinchDelta) >= PinchThresholdPixels)
-            DoZoom(pinchDelta * PinchSensitivity);
-
-        _previousPinchDistance = distance;
-    }
-    private void DoZoom(float zoomFactor)
-    {
-        CameraManager cameraManager = CameraManager.Instance;
-
-        if (cameraManager.MainCamera == null)
-            return;
-
-        float currentSize = cameraManager.MainCamera.orthographicSize;
-        float newSize = Mathf.Clamp(currentSize - zoomFactor, MinCameraSize, MaxCameraSize);
-
-        cameraManager.SetCameraSize(newSize);
-    }
-    private void OnEnable()
-    {
-        _previousPinchDistance = 0f;
-        _isPinching = false;
-    }
-
-    private bool TryGetTwoActiveTouchPositions(out Vector2 touchPosition1, out Vector2 touchPosition2)
-    {
-        touchPosition1 = Vector2.zero;
-        touchPosition2 = Vector2.zero;
-        int activeTouches = 0;
-
-        foreach (var touch in _touchscreen.touches)
-        {
-            if (!touch.press.isPressed)
-                continue;
-
-            if (activeTouches == 0)
-                touchPosition1 = touch.position.ReadValue();
-            else
-            {
-                touchPosition2 = touch.position.ReadValue();
-                return true;
-            }
-
-            activeTouches++;
-        }
-
-        return false;
+        position = _mouse.position.ReadValue();
+        isPressed = _mouse.leftButton.isPressed;
+        pressedThisFrame = _mouse.leftButton.wasPressedThisFrame;
+        releasedThisFrame = _mouse.leftButton.wasReleasedThisFrame;
+        return true;
     }
 
 }
