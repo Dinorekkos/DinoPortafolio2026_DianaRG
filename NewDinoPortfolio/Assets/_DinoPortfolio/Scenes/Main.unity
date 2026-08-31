@@ -1005,6 +1005,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!21 &93873183
 Material:
   serializedVersion: 8
@@ -1781,6 +1784,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!1 &324952107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,6 +1839,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!1 &422985158
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,6 +2127,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!1 &627224660
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,6 +2182,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!21 &699653419
 Material:
   serializedVersion: 8
@@ -2936,6 +2951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 837153805}
+  - component: {fileID: 837153806}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -2958,6 +2974,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &837153806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837153804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972bc0d1beac00e48802fa206a0655f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dino.Utility.Audio.AudioManager
+  _audioManagerData: {fileID: 11400000, guid: c33346f7771c405448c64a3b9119175a, type: 2}
+  _soundNameTest: 
 --- !u!21 &845891073
 Material:
   serializedVersion: 8
@@ -3824,6 +3854,75 @@ Transform:
   - {fileID: 49025818}
   m_Father: {fileID: 422985159}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1328579452
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 500345726442012828, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_Name
+      value: VFX_Classic_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124467517051355568, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124467517051355568, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3124467517051355568, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.11587
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.04422
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120136259019067538, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 50a810bfd70577b41a2d43ae0241ea2d, type: 3}
 --- !u!1 &1465403280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3876,6 +3975,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!4 &1524527903 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9cd34cbd0999a144b8e31b086e3f575e, type: 3}
@@ -3996,6 +4098,53 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
+--- !u!1 &1548015454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1548015456}
+  - component: {fileID: 1548015455}
+  m_Layer: 0
+  m_Name: ParticlesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1548015455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548015454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdcdea8d5bc7ce244b4fbdcdd0e88e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleManager
+--- !u!4 &1548015456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548015454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &1648980920
 Material:
   serializedVersion: 8
@@ -5128,6 +5277,9 @@ MonoBehaviour:
   canTapPush: 1
   tapImpulseForce: 1.5
   tapImpulseUpForce: 0.15
+  clickSoundName: Tap
+  collisionSoundName: 
+  collisionSoundCooldown: 0.08
 --- !u!1 &2082493910
 GameObject:
   m_ObjectHideFlags: 0
@@ -5940,3 +6092,5 @@ SceneRoots:
   - {fileID: 40991482}
   - {fileID: 185653073}
   - {fileID: 837153805}
+  - {fileID: 1548015456}
+  - {fileID: 1328579452}

@@ -15,6 +15,13 @@ namespace Dino.Portfolio.Gameplay
         [SerializeField] private float tapImpulseForce = 1.5f;
         [SerializeField] private float tapImpulseUpForce = 0.15f;
 
+        [Header("Audio Settings")]
+        [SerializeField] private string clickSoundName = "Tap";
+        [SerializeField] private string collisionSoundName = "";
+        [SerializeField] private float collisionSoundCooldown = 0.08f;
+
+        
+        
         private Material mat;
         private MeshRenderer meshRenderer;
         private Rigidbody rb;
@@ -30,6 +37,7 @@ namespace Dino.Portfolio.Gameplay
         private Vector2 _pointerDownScreenPosition;
         private Plane _dragPlane;
         private Vector3 _dragOffset;
+        private float _lastCollisionSoundTime = -999f;
 
         private void Start()
         {
@@ -39,6 +47,15 @@ namespace Dino.Portfolio.Gameplay
         private void Update()
         {
             HandleInput();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!IsCollisionWithRigidbody(collision))
+                return;
+
+            Vector3 collisionPosition = GetCollisionContactPosition(collision);
+            HandleCollisionFeedback(collision, collisionPosition);
         }
 
         private void HandleInput()
@@ -310,6 +327,36 @@ namespace Dino.Portfolio.Gameplay
             return camera != null ? camera : Camera.main;
         }
 
+        private bool IsCollisionWithRigidbody(Collision collision)
+        {
+            return collision.rigidbody != null || collision.collider.attachedRigidbody != null;
+        }
+
+        private void HandleCollisionFeedback(Collision collision, Vector3 collisionPosition)
+        {
+            PlayCollisionSound();
+            PrepareCollisionParticle(collisionPosition, collision);
+        }
+
+        private Vector3 GetCollisionContactPosition(Collision collision)
+        {
+            if (collision.contactCount > 0)
+            {
+                Vector3 contactPosition = Vector3.zero;
+                for (int i = 0; i < collision.contactCount; i++)
+                    contactPosition += collision.GetContact(i).point;
+
+                return contactPosition / collision.contactCount;
+            }
+
+            return collision.collider.ClosestPoint(GetCurrentDragPosition());
+        }
+
+        protected virtual void PrepareCollisionParticle(Vector3 collisionPosition, Collision collision)
+        {
+            // Add the particle spawn here later using collisionPosition.
+        }
+
         // [Button]
         public void SetOutline()
         {
@@ -330,7 +377,24 @@ namespace Dino.Portfolio.Gameplay
         
         private void PlayClickSound()
         {
-            AudioManager.Instance.PlaySound("Tap");
+            PlaySound(clickSoundName);
+        }
+
+        private void PlayCollisionSound()
+        {
+            if (Time.time - _lastCollisionSoundTime < collisionSoundCooldown)
+                return;
+
+            _lastCollisionSoundTime = Time.time;
+            PlaySound(collisionSoundName);
+        }
+
+        private void PlaySound(string soundName)
+        {
+            if (AudioManager.Instance == null || string.IsNullOrWhiteSpace(soundName))
+                return;
+
+            AudioManager.Instance.PlaySound(soundName);
         }
 
     }
