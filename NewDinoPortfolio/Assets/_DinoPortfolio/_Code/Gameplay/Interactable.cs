@@ -55,7 +55,7 @@ namespace Dino.Portfolio.Gameplay
                 return;
 
             Vector3 collisionPosition = GetCollisionContactPosition(collision);
-            HandleCollisionFeedback(collision, collisionPosition);
+            HandleCollisionFeedback(collisionPosition);
         }
 
         private void HandleInput()
@@ -158,6 +158,7 @@ namespace Dino.Portfolio.Gameplay
             _pointerDownScreenPosition = screenPosition;
             SetIsSelected(true);
             PlayClickSound();
+            HandleCollisionFeedback(hit.point);
         }
 
         private void ContinueInteraction(Vector2 screenPosition)
@@ -332,10 +333,10 @@ namespace Dino.Portfolio.Gameplay
             return collision.rigidbody != null || collision.collider.attachedRigidbody != null;
         }
 
-        private void HandleCollisionFeedback(Collision collision, Vector3 collisionPosition)
+        private void HandleCollisionFeedback(Vector3 collisionPosition)
         {
-            PlayCollisionSound();
-            PrepareCollisionParticle(collisionPosition, collision);
+            // PlayCollisionSound();
+            PrepareCollisionParticle(collisionPosition);
         }
 
         private Vector3 GetCollisionContactPosition(Collision collision)
@@ -352,9 +353,13 @@ namespace Dino.Portfolio.Gameplay
             return collision.collider.ClosestPoint(GetCurrentDragPosition());
         }
 
-        protected virtual void PrepareCollisionParticle(Vector3 collisionPosition, Collision collision)
+        protected virtual void PrepareCollisionParticle(Vector3 collisionPosition)
         {
             // Add the particle spawn here later using collisionPosition.
+            Debug.Log($"Collision detected at position: {collisionPosition}. Spawning particle effect.");
+            ParticlesManager.Instance.SpawnParticle("Impact", collisionPosition);
+            
+            
         }
 
         // [Button]
@@ -379,15 +384,7 @@ namespace Dino.Portfolio.Gameplay
         {
             PlaySound(clickSoundName);
         }
-
-        private void PlayCollisionSound()
-        {
-            if (Time.time - _lastCollisionSoundTime < collisionSoundCooldown)
-                return;
-
-            _lastCollisionSoundTime = Time.time;
-            PlaySound(collisionSoundName);
-        }
+        
 
         private void PlaySound(string soundName)
         {
