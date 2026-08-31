@@ -40,7 +40,6 @@ public class ParticlesManager : MonoBehaviour
     [SerializeField] private GameObject particlesContainer;
 
     [Header("Pooling")]
-    // [SerializeField, Min(0)] private int poolSize = 10;
     [SerializeField] private bool prewarmOnInitialize = true;
     [SerializeField] private bool canExpandPools = true;
     [SerializeField] private bool dontDestroyOnLoad = true;
