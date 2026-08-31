@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : Singleton<CameraManager>
 {
     [SerializeField] private float mobileSize = 2.8f;
+    [SerializeField] private Vector3 mobilePosition = new Vector3(0, 0, 0);
     [SerializeField] private float tabletSize = 2.0f;
     [SerializeField] private float desktopSize = 1f;
     [SerializeField] private Vector3 desktopPosition = new Vector3(0, 0, 0);
@@ -22,6 +23,7 @@ public class CameraManager : Singleton<CameraManager>
     void Start()
     {
         Initialize();
+        ResponsiveManager.Instance.OnScreenSizeChanged.AddListener(Initialize);
     }
 
     void Initialize()
@@ -37,19 +39,21 @@ public class CameraManager : Singleton<CameraManager>
         switch (deviceType) 
         {
             case DeviceType.Mobile:
-                _mainCamera.orthographicSize = mobileSize;
+                SetCameraSize(mobileSize);
+                SetCameraPosition(mobilePosition);
                 break;
             case DeviceType.Tablet:
-                _mainCamera.orthographicSize = tabletSize;
+                SetCameraSize(tabletSize);
+                // SetCameraPosition(mobilePosition);
                 break;
             case DeviceType.Desktop:
-                _mainCamera.orthographicSize = desktopSize;
-                _mainCamera.transform.position = desktopPosition;
+                SetCameraSize(desktopSize);
+                SetCameraPosition(desktopPosition);
                 break;
             default:
                 Debug.LogWarning("Unknown device type. Using default camera size.");
-                _mainCamera.orthographicSize = desktopSize;
-                _mainCamera.transform.position = desktopPosition;
+                SetCameraSize(desktopSize);
+                SetCameraPosition(desktopPosition);
                 break;
         }
         
@@ -67,6 +71,19 @@ public class CameraManager : Singleton<CameraManager>
         else
         {
             Debug.LogError("Main Camera not found. Cannot set size.");
+        }
+    }
+    
+    public void SetCameraPosition(Vector3 position)
+    {
+        if(_mainCamera != null)
+        {
+            _mainCamera.transform.position = position;
+            Debug.Log($"Camera position manually set to {position}");
+        }
+        else
+        {
+            Debug.LogError("Main Camera not found. Cannot set position.");
         }
     }
 }
