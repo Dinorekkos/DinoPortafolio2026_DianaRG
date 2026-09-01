@@ -119,12 +119,8 @@ namespace Dino.Portfolio.Gameplay
         
         private void Initialize()
         {
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
-            if (meshRenderer != null)
-            {
-                mat = meshRenderer.material;
-            }
-
+            GetMeshRenderer();
+            TryGetMaterial();
             rb = GetComponentInChildren<Rigidbody>();
             _assetTransform = rb != null ? rb.transform : transform;
             _isSelected = false;
@@ -132,6 +128,18 @@ namespace Dino.Portfolio.Gameplay
             DisableOutline();
         }
 
+        private void GetMeshRenderer()
+        {
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+            
+        }
+
+        private void TryGetMaterial()
+        {
+            if (mat == null && meshRenderer != null)
+                mat = meshRenderer.material;
+        }
+        
         private void UpdateHover(InputManager inputManager)
         {
             if (inputManager.inputType != InputType.Mouse)
@@ -368,8 +376,13 @@ namespace Dino.Portfolio.Gameplay
         public void SetOutline()
         {
             if (mat == null)
+            {
+                Debug.LogError("Material is null. Cannot disable outline. trying to get MeshRenderer and Material again.");
+                GetMeshRenderer();
+                TryGetMaterial();
                 return;
-
+            }
+            Debug.Log("Enabling outline for " + gameObject.name);
             mat.SetFloat("_OutlineThickness", outlineThickness);
         }
 
@@ -377,8 +390,14 @@ namespace Dino.Portfolio.Gameplay
         public void DisableOutline()
         {
             if (mat == null)
+            {
+                Debug.LogError("Material is null. Cannot disable outline. trying to get MeshRenderer and Material again.");
+                GetMeshRenderer();
+                TryGetMaterial();
                 return;
-
+            }
+            
+            Debug.Log("Disabling outline for " + gameObject.name);
             mat.SetFloat("_OutlineThickness", 0f);
         }
         
