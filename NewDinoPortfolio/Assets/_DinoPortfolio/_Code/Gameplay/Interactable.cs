@@ -20,8 +20,9 @@ namespace Dino.Portfolio.Gameplay
         [SerializeField] private string collisionSoundName = "";
         [SerializeField] private float collisionSoundCooldown = 0.08f;
 
-        
-        
+        private Transform _assetTransform;
+        public Transform AssetTransform => _assetTransform != null ? _assetTransform : (_assetTransform = transform);
+
         private Material mat;
         private MeshRenderer meshRenderer;
         private Rigidbody rb;
@@ -124,7 +125,8 @@ namespace Dino.Portfolio.Gameplay
                 mat = meshRenderer.material;
             }
 
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponentInChildren<Rigidbody>();
+            _assetTransform = rb != null ? rb.transform : transform;
             _isSelected = false;
             _isHovered = false;
             DisableOutline();
@@ -356,7 +358,7 @@ namespace Dino.Portfolio.Gameplay
         protected virtual void PrepareCollisionParticle(Vector3 collisionPosition)
         {
             // Add the particle spawn here later using collisionPosition.
-            Debug.Log($"Collision detected at position: {collisionPosition}. Spawning particle effect.");
+            // Debug.Log($"Collision detected at position: {collisionPosition}. Spawning particle effect.");
             ParticlesManager.Instance.SpawnParticle("Impact", collisionPosition);
             
             
