@@ -8,11 +8,15 @@ public class ResponsiveManager : Singleton<ResponsiveManager>
     
     #region private Fields
     private Vector2 _lastScreenSize;
+    private DeviceType _webDeviceType;
+    private bool _hasWebDeviceType;
     #endregion
 
     #region public Properties
     public ScreenOrientation CurrentOrientation => GetScreenOrientation();
-    public DeviceType CurrentDeviceType { get => GetDeviceTypeByResolution(Screen.width, Screen.height); }
+    public DeviceType CurrentDeviceType => _hasWebDeviceType
+        ? _webDeviceType
+        : GetDeviceTypeByResolution(Screen.width, Screen.height);
     public bool IsPortrait() => Screen.width < Screen.height;
     public bool IsLandscape() => Screen.width >= Screen.height;
     public Vector2 CurrentScreenSize => new Vector2(Screen.width, Screen.height);
@@ -42,6 +46,24 @@ public class ResponsiveManager : Singleton<ResponsiveManager>
         // Debug.Log(CurrentScreenSize);
         // Debug.Log(CurrentOrientation);
         Debug.Log(CurrentDeviceType);
+    }
+
+    public void SetDeviceTypeFromWeb(string value)
+    {
+        if (!Enum.TryParse(value, true, out DeviceType detectedType))
+        {
+            Debug.LogWarning($"Unknown web device type: {value}");
+            return;
+        }
+
+        if (_hasWebDeviceType && _webDeviceType == detectedType)
+            return;
+
+        _webDeviceType = detectedType;
+        _hasWebDeviceType = true;
+
+        Debug.Log($"Device type received from web: {_webDeviceType}");
+        OnScreenSizeChanged?.Invoke();
     }
     #endregion
     

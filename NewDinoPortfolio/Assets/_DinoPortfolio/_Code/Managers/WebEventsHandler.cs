@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Dino.UtilityTools.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -71,6 +72,10 @@ public class WebEventsHandler : MonoBehaviour
         }
     }
 
+    public void DebugWebEvent(string eventName, string eventData)
+    {
+        Debug.Log($"Debugging web event: {eventName} with data: {eventData}".SetColor(ColorDebug.Blue));
+    }
     [Serializable]
     public sealed class WebEventReceivedEvent : UnityEvent<string, string>
     {
