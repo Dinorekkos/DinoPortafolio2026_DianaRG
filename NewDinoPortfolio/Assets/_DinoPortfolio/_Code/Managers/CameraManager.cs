@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Dino.UtilityTools.Singleton;
 using UnityEngine;
 
@@ -87,6 +88,19 @@ public class CameraManager : Singleton<CameraManager>
         else
         {
             Debug.LogError("Main Camera not found. Cannot set position.");
+        }
+    }
+    
+    public void AnimateCameraPosition(Vector3 targetPosition, float duration)
+    {
+        if(_mainCamera != null)
+        {
+            _mainCamera.transform.DOMove(targetPosition, duration).SetEase(Ease.InOutSine);
+            Debug.Log($"Animating camera position to {targetPosition} over {duration} seconds");
+        }
+        else
+        {
+            Debug.LogError("Main Camera not found. Cannot animate position.");
         }
     }
 }

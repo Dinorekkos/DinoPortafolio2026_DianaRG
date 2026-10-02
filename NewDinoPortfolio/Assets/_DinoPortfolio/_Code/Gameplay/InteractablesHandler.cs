@@ -18,7 +18,7 @@ public class InteractablesHandler : MonoBehaviour
         var interactables = FindObjectsOfType<Interactable>();
         foreach (var interactable in interactables)
         {
-            Debug.Log($"Found interactable: {interactable.name}");
+            // Debug.Log($"Found interactable: {interactable.name}");
             this.interactables.Add(interactable);
         }
     }
@@ -40,7 +40,7 @@ public class InteractablesHandler : MonoBehaviour
             }
 
             meshCollider.convex = true;
-            Debug.Log($"Configured {interactable.name} with convex MeshCollider.");
+            // Debug.Log($"Configured {interactable.name} with convex MeshCollider.");
             
             
         }
@@ -72,12 +72,12 @@ public class InteractablesHandler : MonoBehaviour
                     rb.isKinematic = false;
                     rb.useGravity = true;
                 }
-                Debug.Log($"Reset {interactable.name} position to {interactableTransform.localPosition}");
+                // Debug.Log($"Reset {interactable.name} position to {interactableTransform.localPosition}");
                 
             }
             else
             {
-                Debug.LogWarning($"Interactable {interactable.name} does not have an AssetTransform assigned. Cannot reset position.");
+                // Debug.LogWarning($"Interactable {interactable.name} does not have an AssetTransform assigned. Cannot reset position.");
             }
         }
     }
