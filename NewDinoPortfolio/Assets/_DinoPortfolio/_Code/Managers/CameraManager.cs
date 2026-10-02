@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager>
 {
+    [Header("Mobile Settings")]
     [SerializeField] private float mobileSize = 2.8f;
     [SerializeField] private Vector3 mobilePosition = new Vector3(0, 0, 0);
+    [Header("Tablet Settings")]
     [SerializeField] private float tabletSize = 2.0f;
+    [Header("Desktop Settings")]
     [SerializeField] private float desktopSize = 1f;
     [SerializeField] private Vector3 desktopPosition = new Vector3(0, 0, 0);
    

@@ -397,7 +397,7 @@ namespace Dino.Portfolio.Gameplay
                 return;
             }
             
-            Debug.Log("Disabling outline for " + gameObject.name);
+            // Debug.Log("Disabling outline for " + gameObject.name);
             mat.SetFloat("_OutlineThickness", 0f);
         }
         
