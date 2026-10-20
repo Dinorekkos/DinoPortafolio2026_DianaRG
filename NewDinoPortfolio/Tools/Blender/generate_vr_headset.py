@@ -20,7 +20,7 @@ PROJECT = Path(__file__).resolve().parents[2]
 SOURCE_DIR = PROJECT / "Tools" / "Blender"
 OUTPUT_DIR = PROJECT / "Assets" / "_DinoPortfolio" / "Meshes" / "VRHeadset"
 WITH_STRAPS = "--with-straps" in sys.argv
-ASSET_NAME = "VR_Headset_Straps" if WITH_STRAPS else "VR_Headset"
+ASSET_NAME = "VR_Headset_Straps_Refined" if WITH_STRAPS else "VR_Headset"
 TEXTURE = (
     PROJECT
     / "Assets"
@@ -37,7 +37,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # V is measured upward in Blender/Unity UV coordinates.
 UV = {
     "shell": (0.946, 0.920),       # cool off-white plastic
-    "shell_side": (0.925, 0.760),  # slightly shaded grey plastic
+    "shell_side": (0.8765, 0.8518),  # user's brighter shell UV from the edited mesh
     "face": (0.229, 0.018),        # darkest blue available in the atlas
     "face_side": (0.223, 0.069),
     "cyan": (0.381, 0.292),        # status light
@@ -121,34 +121,70 @@ def add_lens_rim(cx, cz):
     add_disc(cx, 0.366, cz, 0.163, "lens", segments)
 
 
-def add_band(points, width_axis, width, thickness, color="strap", edge_color="strap_edge"):
-    """Low-poly closed ribbon following a curved center line."""
-    centers = [Vector(point) for point in points]
+def smooth_path(points, steps):
+    """Catmull-Rom centerline with a controlled number of strap sections."""
+    anchors = [Vector(point) for point in points]
+    centers = []
+    for i in range(len(anchors) - 1):
+        p0 = anchors[max(0, i - 1)]
+        p1 = anchors[i]
+        p2 = anchors[i + 1]
+        p3 = anchors[min(len(anchors) - 1, i + 2)]
+        for step in range(steps):
+            t = step / steps
+            centers.append(0.5 * (
+                2 * p1
+                + (-p0 + p2) * t
+                + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
+                + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t
+            ))
+    centers.append(anchors[-1])
+    return centers
+
+
+def add_band(points, width_axis, width, thickness, color="strap", edge_color="strap_edge", steps=2, soft_edges=False):
+    """Closed fabric ribbon with a smooth centerline and optional bevelled edges."""
+    centers = smooth_path(points, steps)
     axis = Vector(width_axis).normalized()
     sections = []
+    bevel = min(width * 0.105, thickness * 0.32)
+    if soft_edges:
+        cross_section = (
+            (-width / 2 + bevel, thickness / 2),
+            (width / 2 - bevel, thickness / 2),
+            (width / 2, thickness / 2 - bevel),
+            (width / 2, -thickness / 2 + bevel),
+            (width / 2 - bevel, -thickness / 2),
+            (-width / 2 + bevel, -thickness / 2),
+            (-width / 2, -thickness / 2 + bevel),
+            (-width / 2, thickness / 2 - bevel),
+        )
+        edge_sides = (2, 6)
+    else:
+        cross_section = (
+            (-width / 2, thickness / 2),
+            (width / 2, thickness / 2),
+            (width / 2, -thickness / 2),
+            (-width / 2, -thickness / 2),
+        )
+        edge_sides = (1, 3)
     for i, center in enumerate(centers):
         prev = centers[max(i - 1, 0)]
         following = centers[min(i + 1, len(centers) - 1)]
         tangent = (following - prev).normalized()
         normal = axis.cross(tangent).normalized()
-        corners = (
-            center - axis * width / 2 + normal * thickness / 2,
-            center + axis * width / 2 + normal * thickness / 2,
-            center + axis * width / 2 - normal * thickness / 2,
-            center - axis * width / 2 - normal * thickness / 2,
-        )
         ids = []
-        for corner in corners:
+        for lateral, depth in cross_section:
             ids.append(len(verts))
-            verts.append(tuple(corner))
+            verts.append(tuple(center + axis * lateral + normal * depth))
         sections.append(ids)
     for rear, front in zip(sections, sections[1:]):
-        for side in range(4):
-            next_side = (side + 1) % 4
+        for side in range(len(cross_section)):
+            next_side = (side + 1) % len(cross_section)
             add_face(
                 (rear[side], rear[next_side], front[next_side], front[side]),
-                color if side in (0, 2) else edge_color,
-                side == 0,
+                edge_color if side in edge_sides else color,
+                True,
             )
     add_face(tuple(reversed(sections[0])), edge_color)
     add_face(sections[-1], edge_color)
@@ -243,6 +279,7 @@ if WITH_STRAPS:
         (0, 0, 1),
         width=0.176,
         thickness=0.042,
+        steps=2,
     )
 
     # Arched strap across the crown, reaching the rear lateral band.
@@ -259,11 +296,15 @@ if WITH_STRAPS:
         (1, 0, 0),
         width=0.176,
         thickness=0.039,
+        steps=3,
+        soft_edges=True,
     )
 
     # Shallow lower support behind the face-side insert.
     add_band(
         [
+            (-0.978, 0.160, -0.085),
+            (-0.968, 0.280, -0.150),
             (-0.845, 0.430, -0.205),
             (-0.855, 0.820, -0.275),
             (-0.670, 1.135, -0.315),
@@ -273,10 +314,13 @@ if WITH_STRAPS:
             (0.670, 1.135, -0.315),
             (0.855, 0.820, -0.275),
             (0.845, 0.430, -0.205),
+            (0.968, 0.280, -0.150),
+            (0.978, 0.160, -0.085),
         ],
         (0, 0, 1),
         width=0.120,
         thickness=0.033,
+        steps=2,
     )
     add_side_hinge(-1)
     add_side_hinge(1)
@@ -372,6 +416,10 @@ if WITH_STRAPS:
     camera.location = (-2.55, 3.40, 1.85)
     camera.rotation_euler = (Vector((0.0, 0.55, 0.15)) - camera.location).to_track_quat("-Z", "Y").to_euler()
     scene.render.filepath = str(SOURCE_DIR / (ASSET_NAME + "_back.png"))
+    bpy.ops.render.render(write_still=True)
+    camera.location = (3.20, 0.75, 0.85)
+    camera.rotation_euler = (Vector((0.0, 0.48, 0.05)) - camera.location).to_track_quat("-Z", "Y").to_euler()
+    scene.render.filepath = str(SOURCE_DIR / (ASSET_NAME + "_side.png"))
     bpy.ops.render.render(write_still=True)
     camera.location = (2.65, -3.30, 2.05)
     camera.rotation_euler = (Vector((0.0, 0.40, 0.15)) - camera.location).to_track_quat("-Z", "Y").to_euler()
