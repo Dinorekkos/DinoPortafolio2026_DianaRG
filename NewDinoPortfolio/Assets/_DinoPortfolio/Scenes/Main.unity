@@ -3711,7 +3711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   dontDestroyOnLoad: 0
   mobileSize: 2.8
-  mobilePosition: {x: 0, y: 2.8, z: -1.26}
+  mobilePosition: {x: 0, y: 3.4, z: -1.26}
   tabletSize: 1.9
   desktopSize: 0.85
   desktopPosition: {x: -0.529, y: 2.1, z: -1}
