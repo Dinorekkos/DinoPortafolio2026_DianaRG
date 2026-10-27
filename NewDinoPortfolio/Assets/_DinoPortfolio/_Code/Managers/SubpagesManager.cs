@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
+using Dino.UtilityTools.Singleton;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class SubpagesManager : MonoBehaviour
+public class SubpagesManager : Singleton<SubpagesManager>
 {
     [SerializeField] private SubpageType currentSubpageType;
-    [SerializeField] private Transform[] subpageTransforms;
+    [SerializeField] private List<SubpageData> subpageDataArray;
+    
+    public Action<SubpageType> OnSubpageChanged;
 
     public SubpageType CurrentSubpageType
     {
@@ -15,12 +19,17 @@ public class SubpagesManager : MonoBehaviour
 
     private void Start()
     {
-        SetCurrentSubpageType(currentSubpageType);
+        DisableSubpagesExcept(currentSubpageType);
     }
 
     [Button]
     public void SetCurrentSubpageType(SubpageType subpageType)
     {
+        if(currentSubpageType == subpageType)
+        {
+            // Debug.Log($"Subpage type {subpageType} is already active.");
+            return;
+        }
         currentSubpageType = subpageType;
         HandleSubpageChange(currentSubpageType);
     }
@@ -28,21 +37,49 @@ public class SubpagesManager : MonoBehaviour
     private void HandleSubpageChange(SubpageType subpageType)
     {
         // Handle the subpage change logic here
-        for (int i = 0; i < subpageTransforms.Length; i++)
+        foreach (var subpageData in subpageDataArray)
         {
-            if (i == (int)subpageType)
+            if (subpageData.subpageType == subpageType)
             {
-                subpageTransforms[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                subpageTransforms[i].gameObject.SetActive(false);
+                subpageData.subpageTransform.gameObject.SetActive(true);
+                
+                float targetYPosition = ResponsiveManager.Instance.CurrentDeviceType == DeviceType.Desktop
+                    ? subpageData.desktopYPosition
+                    : subpageData.mobileYPosition;
+                
+                CameraManager.Instance.AnimateCameraPosition(new Vector3(0, targetYPosition, 0), 1f, () =>
+                {
+                    // Debug.Log($"Camera animation to {subpageData.subpagePosition} completed.");
+                    DisableSubpagesExcept(subpageType);
+                    OnSubpageChanged?.Invoke(currentSubpageType);
+                });
+                break;
             }
         }
         
-        
-        
     }
+    
+    
+    private void DisableSubpagesExcept(SubpageType subpageType)
+    {
+        foreach (var subpageData in subpageDataArray)
+        {
+            if (subpageData.subpageType != subpageType)
+            {
+                // Debug.Log($"Disabling subpage: {subpageData.subpageType}");
+                subpageData.subpageTransform.gameObject.SetActive(false);
+            }
+        }
+    }
+}
+
+[System.Serializable]
+public class SubpageData
+{
+    public SubpageType subpageType;
+    public Transform subpageTransform;
+    public float mobileYPosition;
+    public float desktopYPosition;
 }
 
 public enum SubpageType

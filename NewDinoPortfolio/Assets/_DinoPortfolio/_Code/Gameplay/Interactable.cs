@@ -48,6 +48,29 @@ namespace Dino.Portfolio.Gameplay
         private void Update()
         {
             HandleInput();
+            
+            if(_assetTransform.position.y < -10f)
+            {
+                Debug.LogWarning($"{gameObject.name} has fallen below the threshold. Resetting position.");
+                ResetPosition();
+            }
+        }
+
+        public void ResetPosition()
+        {
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
+            _assetTransform.localPosition = Vector3.zero;
+            _assetTransform.localRotation = Quaternion.identity;
+            
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -382,7 +405,7 @@ namespace Dino.Portfolio.Gameplay
                 TryGetMaterial();
                 return;
             }
-            Debug.Log("Enabling outline for " + gameObject.name);
+            // Debug.Log("Enabling outline for " + gameObject.name);
             mat.SetFloat("_OutlineThickness", outlineThickness);
         }
 

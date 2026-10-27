@@ -91,11 +91,15 @@ public class CameraManager : Singleton<CameraManager>
         }
     }
     
-    public void AnimateCameraPosition(Vector3 targetPosition, float duration)
+    public void AnimateCameraPosition(Vector3 targetPosition, float duration, Action onComplete = null)
     {
         if(_mainCamera != null)
         {
-            _mainCamera.transform.DOMove(targetPosition, duration).SetEase(Ease.InOutSine);
+            Vector3 fixedPos = new Vector3(_mainCamera.transform.position.x,targetPosition.y ,_mainCamera.transform.position.z );
+            _mainCamera.transform.DOMove(fixedPos, duration).SetEase(Ease.InOutSine).OnComplete(() =>
+            {
+                onComplete?.Invoke();
+            });
             Debug.Log($"Animating camera position to {targetPosition} over {duration} seconds");
         }
         else

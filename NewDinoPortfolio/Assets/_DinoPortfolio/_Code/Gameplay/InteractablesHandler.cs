@@ -6,10 +6,15 @@ using UnityEngine;
 public class InteractablesHandler : MonoBehaviour
 {
     public List<Interactable> interactables = new List<Interactable>();
+    
+    
     void Start()
     {
         GetInteractables();
-        // SaveInteractablesPosition();
+        SubpagesManager.Instance.OnSubpageChanged += (subpageType) =>
+        {
+            ResetInteractablesPosition();
+        };
     }
     
     private void GetInteractables()
@@ -52,33 +57,34 @@ public class InteractablesHandler : MonoBehaviour
     {
         foreach (var interactable in interactables)
         {
-            Transform interactableTransform = interactable.AssetTransform;
-            if (interactableTransform != null)
-            {
-                // Reset the position to the original position
-                Rigidbody rb = interactableTransform.GetComponent<Rigidbody>();
-                // If the interactable has a Rigidbody, set it to kinematic and disable gravity while resetting the position
-                if (rb != null)
-                {
-                    rb.isKinematic = true;
-                    rb.useGravity = false;
-                }
-                interactableTransform.localPosition = Vector3.zero;
-                interactableTransform.localRotation = Quaternion.identity;
-                
-                // If the interactable has a Rigidbody, re-enable gravity and set it back to non-kinematic after resetting the position
-                if (rb != null)
-                {
-                    rb.isKinematic = false;
-                    rb.useGravity = true;
-                }
+            // Transform interactableTransform = interactable.AssetTransform;
+            // if (interactableTransform != null)
+            // {
+            //     // Reset the position to the original position
+            //     Rigidbody rb = interactableTransform.GetComponent<Rigidbody>();
+            //     // If the interactable has a Rigidbody, set it to kinematic and disable gravity while resetting the position
+            //     if (rb != null)
+            //     {
+            //         rb.isKinematic = true;
+            //         rb.useGravity = false;
+            //     }
+            //     interactableTransform.localPosition = Vector3.zero;
+            //     interactableTransform.localRotation = Quaternion.identity;
+            //     
+            //     // If the interactable has a Rigidbody, re-enable gravity and set it back to non-kinematic after resetting the position
+            //     if (rb != null)
+            //     {
+            //         rb.isKinematic = false;
+            //         rb.useGravity = true;
+            //     }
                 // Debug.Log($"Reset {interactable.name} position to {interactableTransform.localPosition}");
-                
-            }
-            else
-            {
-                // Debug.LogWarning($"Interactable {interactable.name} does not have an AssetTransform assigned. Cannot reset position.");
-            }
+            // }
+            // else
+            // {
+            //     // Debug.LogWarning($"Interactable {interactable.name} does not have an AssetTransform assigned. Cannot reset position.");
+            // }
+            
+            interactable.ResetPosition();
         }
     }
 
