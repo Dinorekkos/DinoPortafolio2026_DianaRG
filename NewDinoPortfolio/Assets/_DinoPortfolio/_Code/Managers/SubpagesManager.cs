@@ -33,6 +33,8 @@ public class SubpagesManager : Singleton<SubpagesManager>
         SetCurrentSubpageType(parsedSubpageType);
     }
     
+    
+    
     [Button]
     public void SetCurrentSubpageType(SubpageType subpageType)
     {

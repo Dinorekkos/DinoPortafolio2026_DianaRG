@@ -5,6 +5,7 @@ public class GravitySpace : MonoBehaviour
 {
     [SerializeField] private float maxXSize = 1f;
     [SerializeField] private float maxYSize = 1f;
+    [SerializeField] private float marginOffset = 2f;
     void Start()
     {
         ScaleWithScreenSize();
