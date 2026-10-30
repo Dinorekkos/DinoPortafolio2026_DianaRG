@@ -19,9 +19,20 @@ public class SubpagesManager : Singleton<SubpagesManager>
 
     private void Start()
     {
-        DisableSubpagesExcept(currentSubpageType);
+        // DisableSubpagesExcept(currentSubpageType);
     }
 
+    
+    public void SetSubpageType(string value)
+    {
+        if (!Enum.TryParse(value, out SubpageType parsedSubpageType))
+        {
+            Debug.LogWarning($"Invalid subpage type: {value}");
+            return;
+        }
+        SetCurrentSubpageType(parsedSubpageType);
+    }
+    
     [Button]
     public void SetCurrentSubpageType(SubpageType subpageType)
     {
@@ -50,7 +61,7 @@ public class SubpagesManager : Singleton<SubpagesManager>
                 CameraManager.Instance.AnimateCameraPosition(new Vector3(0, targetYPosition, 0), 1f, () =>
                 {
                     // Debug.Log($"Camera animation to {subpageData.subpagePosition} completed.");
-                    DisableSubpagesExcept(subpageType);
+                    // DisableSubpagesExcept(subpageType);
                     OnSubpageChanged?.Invoke(currentSubpageType);
                 });
                 break;

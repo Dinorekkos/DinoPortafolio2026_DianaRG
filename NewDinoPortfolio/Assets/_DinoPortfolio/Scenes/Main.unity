@@ -1620,6 +1620,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventName: subpage:type
+    onReceived:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 188891146}
+          m_TargetAssemblyTypeName: SubpagesManager, Assembly-CSharp
+          m_MethodName: SetSubpageType
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &188891143
 GameObject:
   m_ObjectHideFlags: 0
