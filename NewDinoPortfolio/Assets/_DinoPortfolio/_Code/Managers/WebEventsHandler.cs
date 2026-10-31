@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class WebEventsHandler : MonoBehaviour
 {
+    private const string CameraPositionEventName = "camPos:pos";
     [SerializeField] private WebEventReceivedEvent onAnyWebEventReceived = new WebEventReceivedEvent();
     [SerializeField] private List<WebEventRoute> eventRoutes = new List<WebEventRoute>();
 
@@ -58,7 +59,10 @@ public class WebEventsHandler : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Received web event: {eventName} with data: {eventData}");
+        if (eventName != CameraPositionEventName)
+        {
+            Debug.Log($"Received web event: {eventName} with data: {eventData}");
+        }
         onAnyWebEventReceived?.Invoke(eventName, eventData);
 
         for (int i = 0; i < eventRoutes.Count; i++)
@@ -74,7 +78,10 @@ public class WebEventsHandler : MonoBehaviour
 
     public void DebugWebEvent(string eventName, string eventData)
     {
-        Debug.Log($"Debugging web event: {eventName} with data: {eventData}".SetColor(ColorDebug.Blue));
+        if (eventName != CameraPositionEventName)
+        {
+            Debug.Log($"Debugging web event: {eventName} with data: {eventData}".SetColor(ColorDebug.Blue));
+        }
     }
     [Serializable]
     public sealed class WebEventReceivedEvent : UnityEvent<string, string>

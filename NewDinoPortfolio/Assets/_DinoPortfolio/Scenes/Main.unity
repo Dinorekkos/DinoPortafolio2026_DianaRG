@@ -1624,26 +1624,18 @@ MonoBehaviour:
   - eventName: subpage:type
     onReceived:
       m_PersistentCalls:
+        m_Calls: []
+  - eventName: camPos:pos
+    onReceived:
+      m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 188891146}
-          m_TargetAssemblyTypeName: SubpagesManager, Assembly-CSharp
-          m_MethodName: SetSubpageType
+        - m_Target: {fileID: 990436608}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: SetCameraPositionFromWebScroll
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: SubpagesManager, Assembly-CSharp
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4192,6 +4184,7 @@ MonoBehaviour:
   tabletSize: 1.9
   desktopSize: 0.85
   desktopPosition: {x: -0.529, y: 2.1, z: -1}
+  pixelsPerUnityUnit: 400
   _mainCamera: {fileID: 1115734917}
 --- !u!4 &1023366627 stripped
 Transform:

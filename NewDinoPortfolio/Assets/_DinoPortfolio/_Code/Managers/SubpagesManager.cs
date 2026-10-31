@@ -21,7 +21,6 @@ public class SubpagesManager : Singleton<SubpagesManager>
     {
         // DisableSubpagesExcept(currentSubpageType);
     }
-
     
     public void SetSubpageType(string value)
     {

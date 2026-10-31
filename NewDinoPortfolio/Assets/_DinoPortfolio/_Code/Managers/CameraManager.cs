@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using DG.Tweening;
 using Dino.UtilityTools.Singleton;
 using UnityEngine;
@@ -13,8 +14,14 @@ public class CameraManager : Singleton<CameraManager>
     [Header("Desktop Settings")]
     [SerializeField] private float desktopSize = 1f;
     [SerializeField] private Vector3 desktopPosition = new Vector3(0, 0, 0);
+    [Header("Web Scroll Settings")]
+    [SerializeField, Min(1f)] private float pixelsPerUnityUnit = 400f;
    
     [SerializeField] private Camera _mainCamera;
+    private Vector3 initialCameraPosition;
+    private float currentWebScrollPixels;
+    private float appliedWebScrollOffset;
+    private bool hasReceivedWebScroll;
     
     public Camera MainCamera => _mainCamera;
 
@@ -38,6 +45,9 @@ public class CameraManager : Singleton<CameraManager>
             Debug.LogError("Main Camera not found in the scene.");
             return;
         }
+
+        Vector3 positionWithoutWebScroll = _mainCamera.transform.position;
+        positionWithoutWebScroll.y += appliedWebScrollOffset;
         
         DeviceType deviceType = ResponsiveManager.Instance.CurrentDeviceType;
         switch (deviceType) 
@@ -48,7 +58,7 @@ public class CameraManager : Singleton<CameraManager>
                 break;
             case DeviceType.Tablet:
                 SetCameraSize(tabletSize);
-                // SetCameraPosition(mobilePosition);
+                SetCameraPosition(positionWithoutWebScroll);
                 break;
             case DeviceType.Desktop:
                 SetCameraSize(desktopSize);
@@ -60,6 +70,9 @@ public class CameraManager : Singleton<CameraManager>
                 SetCameraPosition(desktopPosition);
                 break;
         }
+
+        initialCameraPosition = _mainCamera.transform.position;
+        ApplyWebScrollPosition();
         
         Debug.Log($"Camera orthographic size set to {_mainCamera.orthographicSize} for device type {deviceType}");
         
@@ -78,6 +91,54 @@ public class CameraManager : Singleton<CameraManager>
         }
     }
     
+    public void SetCameraPosition(string positionString)
+    {
+        string[] parts = positionString.Split(',');
+        if (parts.Length != 3)
+        {
+            Debug.LogError($"Invalid position string: {positionString}. Expected format: 'x,y,z'");
+            return;
+        }
+
+        if (float.TryParse(parts[0], out float x) &&
+            float.TryParse(parts[1], out float y) &&
+            float.TryParse(parts[2], out float z))
+        {
+            SetCameraPosition(new Vector3(x, y, z));
+        }
+        else
+        {
+            Debug.LogError($"Failed to parse position string: {positionString}");
+        }
+    }
+
+    public void SetCameraPositionFromWebScroll(string scrollPixelsString)
+    {
+        if (!float.TryParse(scrollPixelsString, NumberStyles.Float, CultureInfo.InvariantCulture, out float scrollPixels)
+            || float.IsNaN(scrollPixels) || float.IsInfinity(scrollPixels))
+        {
+            Debug.LogWarning($"Invalid web scroll position: {scrollPixelsString}");
+            return;
+        }
+
+        currentWebScrollPixels = Mathf.Max(0f, scrollPixels);
+        hasReceivedWebScroll = true;
+        ApplyWebScrollPosition();
+    }
+
+    private void ApplyWebScrollPosition()
+    {
+        if (!hasReceivedWebScroll || _mainCamera == null)
+        {
+            return;
+        }
+
+        appliedWebScrollOffset = currentWebScrollPixels / pixelsPerUnityUnit;
+        Vector3 position = initialCameraPosition;
+        position.y -= appliedWebScrollOffset;
+        _mainCamera.transform.position = position;
+    }
+
     public void SetCameraPosition(Vector3 position)
     {
         if(_mainCamera != null)
